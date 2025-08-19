@@ -1,12 +1,12 @@
 // Network-first for CSS/JS to avoid stale styling on iOS Safari
-const CACHE = 'advisor-v7';
+const CACHE = 'advisor-v9'; // bumped version to force refresh
 const ASSETS = [
-  './',
-  './index.html',
-  './style.css',
-  './app.js',
-  './manifest.webmanifest',
-  './icon.png'
+  '/',
+  '/index.html',
+  '/style.css',
+  '/app.js',
+  '/manifest.webmanifest',
+  '/icon.png'
 ];
 
 self.addEventListener('install', (e) => {
