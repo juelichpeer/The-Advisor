@@ -8,28 +8,44 @@ window.addEventListener('resize', setVh);
 
 // Register SW
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  navigator.serviceWorker.register('/sw.js').catch(()=>{});
 }
 
-const splashDuration = 1900;
+const INTRO_MS = 2000;      // time to play "Welcome Home Admin" in
+const MERGE_DELAY = 150;    // small delay before starting the merge sweep
+const MERGE_MS = 800;       // duration of radial reveal (matches CSS @keyframes reveal)
 
 window.addEventListener('DOMContentLoaded', () => {
+  const splash = document.getElementById('splash');
   const dash = document.getElementById('dashboard');
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const go = () => {
-    document.body.classList.add('show-dashboard');
-    dash.hidden = false;
-    setTimeout(() => document.getElementById('splash')?.remove(), 900);
+  // Sequence:
+  // 1) Play intro
+  // 2) Trigger 'merge' class to run radial reveal
+  // 3) Show dashboard & fade it in
+  // 4) Remove splash after animation
+  const playIntro = () => {
+    setTimeout(() => {
+      // Start merge reveal
+      document.body.classList.add('merge');
+      setTimeout(() => {
+        // Enter dashboard
+        document.body.classList.add('show-dashboard');
+        dash.hidden = false;
+
+        // Cleanup splash after animations
+        setTimeout(() => splash?.remove(), 900);
+      }, prefersReduced ? 0 : MERGE_MS);
+    }, prefersReduced ? 40 : INTRO_MS + MERGE_DELAY);
   };
-  setTimeout(go, prefersReduced ? 50 : splashDuration);
+
+  playIntro();
 
   // Nav active state (visual only)
   const allNavButtons = Array.from(document.querySelectorAll('.nav-btn'));
   function setActive(route){
     allNavButtons.forEach(b => b.classList.toggle('is-active', b.dataset.route === route));
   }
-  allNavButtons.forEach(btn => {
-    btn.addEventListener('click', () => setActive(btn.dataset.route));
-  });
+  allNavButtons.forEach(btn => btn.addEventListener('click', () => setActive(btn.dataset.route)));
 });

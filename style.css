@@ -2,7 +2,6 @@
   --bg:#0b0b0b;
   --ink:#e8e8e8;
   --muted:#a6a6a6;
-  --glass:rgba(255,255,255,0.06);
   --ring:rgba(255,255,255,0.14);
   --blur:18px;
   --radius:28px;
@@ -17,19 +16,19 @@ html,body{height:100%}
 html,body,#app{margin:0;padding:0}
 body{
   color:var(--ink);
-  background:var(--bg);
+  background:#0b0b0b;
   font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji";
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
 
-/* Glass canvas (background only) */
+/* Glass canvas */
 .glass-bg{
   position:fixed; inset:0; z-index:0;
   min-height:calc(var(--vh) * 100);
   background:
     radial-gradient(120% 100% at 0% 0%, rgba(255,255,255,0.06), transparent 55%),
     radial-gradient(120% 100% at 100% 100%, rgba(255,255,255,0.05), transparent 55%),
-    var(--bg);
+    #0b0b0b;
   overflow:hidden;
 }
 .glass-bg::before{
@@ -56,8 +55,7 @@ body{
   top:16px; bottom:16px; left:16px;
   width:var(--rail-w);
   padding:14px;
-  flex-direction:column;
-  gap:8px;
+  flex-direction:column; gap:8px;
   display:flex;
 }
 @media (max-width:819px){ .nav-rail{ display:none; } }
@@ -73,8 +71,7 @@ body{
   transition:transform 140ms var(--ease), background 160ms var(--ease), opacity 160ms var(--ease);
 }
 .nav-btn svg{ width:22px; height:22px; fill:currentColor; opacity:.9; }
-.nav-btn span{ opacity:.9; }
-
+.nav-btn span{ opacity:.92; }
 .nav-btn.is-active{
   background:linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
   box-shadow:inset 0 0 0 1px var(--ring), 0 10px 28px rgba(0,0,0,0.55);
@@ -117,6 +114,7 @@ body{
 }
 
 /* Splash */
+.splash{ isolation:isolate; } /* keep mask/contents layered */
 .splash-inner{
   display:grid; place-items:center; gap:18px;
   padding:clamp(20px, 4vw, 36px);
@@ -161,10 +159,62 @@ body{
   opacity:0; transform:translateY(10px); animation:fadeUp 600ms var(--ease) 740ms forwards;
 }
 
-/* Dashboard (intentionally blank) */
+/* Merge mask: creates radial reveal into dashboard */
+.merge-mask{
+  position:absolute; inset:0; z-index:-1;
+  pointer-events:none;
+  /* start as small circle in center (hidden) */
+  clip-path: circle(0% at 50% 50%);
+  background: transparent;
+}
+body.merge .merge-mask{
+  /* expand to reveal dashboard below while fading splash */
+  animation: reveal 800ms var(--ease) forwards;
+}
+@keyframes reveal{
+  0%{ clip-path: circle(0% at 50% 50%); }
+  100%{ clip-path: circle(140% at 50% 50%); }
+}
+
+/* Dashboard */
 .dashboard{ opacity:0; background:transparent; }
-body.show-dashboard #splash{ animation:splashOut 650ms var(--ease) forwards; }
-body.show-dashboard #dashboard{ display:grid; animation:dashboardIn 700ms var(--ease) 180ms forwards; }
+.dashboard .grid{
+  display:grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap:16px;
+  width:min(1200px, 92vw);
+}
+.dashboard .card{
+  grid-column: span 6;
+  min-height:140px; border-radius:18px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1px var(--ring);
+}
+@media (max-width:740px){
+  .dashboard .card{ grid-column: span 12; }
+}
+.ghost{
+  position:relative; overflow:hidden;
+}
+.ghost::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.09), transparent);
+  transform:translateX(-100%);
+  animation: shimmer 1.6s linear infinite;
+}
+@keyframes shimmer{
+  100%{ transform:translateX(100%); }
+}
+
+/* State: splash -> dashboard (with merge) */
+body.show-dashboard #splash{
+  animation: splashOut 650ms var(--ease) forwards;
+}
+body.show-dashboard #dashboard{
+  display:grid; animation: dashboardIn 700ms var(--ease) 180ms forwards;
+}
 body.show-dashboard #dashboard[hidden]{ display:grid; }
 
 /* Animations */
@@ -175,6 +225,7 @@ body.show-dashboard #dashboard[hidden]{ display:grid; }
 @keyframes splashOut{ 0%{opacity:1; transform:translateY(0);} 100%{opacity:0; transform:translateY(-12px) scale(.995);} }
 @keyframes dashboardIn{ 0%{opacity:0;} 100%{opacity:1;} }
 
-@media (prefers-reduced-motion:reduce){
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important}
 }

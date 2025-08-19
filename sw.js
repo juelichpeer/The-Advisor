@@ -1,5 +1,5 @@
 // Network-first for CSS/JS to avoid stale styling on iOS Safari
-const CACHE = 'advisor-v9'; // bumped version to force refresh
+const CACHE = 'advisor-v10'; // bump to force refresh
 const ASSETS = [
   '/',
   '/index.html',
