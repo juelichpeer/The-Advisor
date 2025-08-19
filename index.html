@@ -2,84 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Advisor</title>
 
   <!-- PWA -->
-  <link rel="manifest" href="/manifest.webmanifest" />
-  <meta name="theme-color" content="#000000" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#ffffff" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Advisor" />
 
   <!-- Icons -->
-  <link rel="icon" type="image/png" href="/icon.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/icon.png" />
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icon.png" />
 
   <!-- CSS -->
-  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div id="app">
+    <!-- Welcome animation screen -->
+    <div id="welcome-screen" class="welcome">
+      <h1 class="welcome-text">Welcome to Advisor</h1>
+    </div>
 
-  <!-- LEFT RAIL (desktop/tablet) — outside blur for Safari -->
-  <nav class="nav nav-rail" aria-label="Primary">
-    <button class="nav-btn is-active" data-route="home" aria-label="Home">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
-      <span>Home</span>
-    </button>
-    <button class="nav-btn" data-route="contacts" aria-label="Contacts">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-8 1a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 8 12Zm8 2c-3.018 0-6 1.52-6 4v2h12v-2c0-2.48-2.982-4-6-4ZM8 14c-2.65 0-5 1.334-5 3.5V20h6v-2c0-1.004.4-1.93 1.066-2.7A9.6 9.6 0 0 0 8 14Z"/></svg>
-      <span>Contacts</span>
-    </button>
-    <button class="nav-btn" data-route="settings" aria-label="Settings">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.325 4.317a1 1 0 0 1 .994-.118l1.362.567a7.3 7.3 0 0 1 1.79-.001l1.36-.567a1 1 0 0 1 1.33.498l.65 1.364c.3.19.586.412.854.662l1.51-.076a1 1 0 0 1 1.04.88l.15 1.6c.26.22.5.462.718.722l1.37.647a1 1 0 0 1 .494 1.335l-.611 1.367c.07.312.12.634.149.962l1.148 1.117a1 1 0 0 1-.032 1.416l-1.183 1.07a7.1 7.1 0 0 1-.63.902l.178 1.578a1 1 0 0 1-.953 1.103l-1.595.118a7.4 7.4 0 0 1-.948.71l-.706 1.446a1 1 0 0 1-1.321.48l-1.47-.6a7.3 7.3 0 0 1-1.77 0l-1.47.6a1 1 0 0 1-1.32-.48l-.707-1.446a7.3 7.3 0 0 1-.948-.709l-1.595-.119a1 1 0 0 1-.952-1.103l.178-1.578a7.1 7.1 0 0 1-.63-.903l-1.182-1.07a1 1 0 0 1-.033-1.415l1.148-1.118c.03-.327.08-.649.15-.96l-.613-1.368a1 1 0 0 1 .493-1.335l1.37-.648c.218-.26.458-.5.719-.72l.15-1.6a1 1 0 0 1 1.04-.88l1.509.077c.27-.25.555-.472.854-.662l.65-1.364ZM12 9.5A4.5 4.5 0 1 0 16.5 14 4.5 4.5 0 0 0 12 9.5Z"/></svg>
-      <span>Settings</span>
-    </button>
-  </nav>
+    <!-- Main Home screen -->
+    <div id="home-screen" class="hidden">
+      <header class="header">
+        <h2>Good Evening, <span id="user-name">Peer</span></h2>
+      </header>
 
-  <!-- BOTTOM BAR (phone) — outside blur -->
-  <nav class="nav nav-bottom" aria-label="Primary (mobile)">
-    <button class="nav-btn" data-route="contacts" aria-label="Contacts">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-8 1a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 8 12Zm8 2c-3.018 0-6 1.52-6 4v2h12v-2c0-2.48-2.982-4-6-4ZM8 14c-2.65 0-5 1.334-5 3.5V20h6v-2c0-1.004.4-1.93 1.066-2.7A9.6 9.6 0 0 0 8 14Z"/></svg>
-    </button>
-    <button class="nav-btn is-active nav-home" data-route="home" aria-label="Home">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
-    </button>
-    <button class="nav-btn" data-route="settings" aria-label="Settings">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.325 4.317a1 1 0 0 1 .994-.118l1.362.567a7.3 7.3 0 0 1 1.79-.001l1.36-.567a1 1 0 0 1 1.33.498l.65 1.364c.3.19.586.412.854.662l1.51-.076a1 1 0 0 1 1.04.88l.15 1.6c.26.22.5 .462.718.722l1.37.647a1 1 0 0 1 .494 1.335l-.611 1.367c.07.312.12.634.149.962l1.148 1.117a1 1 0 0 1-.032 1.416l-1.183 1.07a7.1 7.1 0 0 1-.63.902l .178 1.578a1 1 0 0 1-.953 1.103l-1.595.118a7.4 7.4 0 0 1-.948.71l-.706 1.446a1 1 0 0 1-1.321.48l-1.47-.6a7.3 7.3 0 0 1-1.77 0l-1.47.6a1 1 0 0 1-1.32-.48l-.707-1.446a7.3 7.3 0 0 1-.948-.709l-1.595-.119a1 1 0 0 1-.952-1.103l.178-1.578a7.1 7.1 0 0 1-.63-.903l-1.182-1.07a1 1 0 0 1-.033-1.415l1.148-1.118c.03-.327.08-.649.15-.96l-.613-1.368a1 1 0 0 1 .493-1.335l1.37-.648c.218-.26.458-.5.719-.72l.15-1.6a1 1 0 0 1 1.04-.88l1.509.077c.27-.25.555-.472.854-.662l.65-1.364Z"/></svg>
-    </button>
-  </nav>
+      <main class="options">
+        <div class="card">📊 Dashboard</div>
+        <div class="card">📝 Notes</div>
+        <div class="card">⚙️ Settings</div>
+        <div class="card">📅 Calendar</div>
+        <div class="card">💡 Ideas</div>
+      </main>
+    </div>
+  </div>
 
-  <!-- BACKGROUND + VIEWS -->
-  <main id="app" class="app glass-bg">
-    <!-- Splash -->
-    <section id="splash" class="view splash" aria-label="Welcome">
-      <div class="splash-inner">
-        <div class="badge" aria-hidden="true"><span class="pulse"></span></div>
-        <h1 class="headline" aria-label="Welcome Home Admin">
-          <span class="word">Welcome</span>
-          <span class="word">Home</span>
-          <span class="word">Admin</span>
-        </h1>
-        <p class="tagline">Advisor</p>
-      </div>
-      <!-- merge mask element -->
-      <div class="merge-mask" aria-hidden="true"></div>
-    </section>
-
-    <!-- Dashboard -->
-    <section id="dashboard" class="view dashboard" aria-label="Dashboard" hidden>
-      <!-- Example “components” (skeleton cards) -->
-      <div class="grid">
-        <div class="card ghost"></div>
-        <div class="card ghost"></div>
-        <div class="card ghost"></div>
-        <div class="card ghost"></div>
-      </div>
-    </section>
-  </main>
-
-  <script src="/app.js" defer></script>
+  <script src="app.js"></script>
 </body>
 </html>
