@@ -12,12 +12,14 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Advisor" />
 
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" href="icon.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icon.png">
+  <!-- Icons -->
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icon.png" />
 
-
+  <!-- CSS (NO query string, let SW manage cache) -->
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <!-- LEFT RAIL (desktop/tablet) — now OUTSIDE the glass container -->
