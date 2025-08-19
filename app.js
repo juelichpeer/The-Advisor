@@ -14,11 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const splash = document.getElementById('splash');
   const dash = document.getElementById('dashboard');
 
-  // greeting
-  const h = new Date().getHours();
-  const part = h < 12 ? 'Good Morning' : h < 18 ? 'Good Afternoon' : 'Good Evening';
+  // Dashboard title: "Welcome USER_PLACEHOLDER"
   const el = document.getElementById('greeting');
-  if (el) el.firstChild.nodeValue = `${part}, `; // keep span.name
+  if (el) el.textContent = 'Welcome USER_PLACEHOLDER';
 
   const go = () => {
     document.body.classList.add('merge'); // start radial
