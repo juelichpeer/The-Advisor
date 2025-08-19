@@ -11,13 +11,12 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').catch(()=>{});
 }
 
-const splashDuration = 1900; // intro time
+const splashDuration = 1900;
 
 window.addEventListener('DOMContentLoaded', () => {
   const dash = document.getElementById('dashboard');
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Splash -> Dashboard
   const go = () => {
     document.body.classList.add('show-dashboard');
     dash.hidden = false;
@@ -25,15 +24,12 @@ window.addEventListener('DOMContentLoaded', () => {
   };
   setTimeout(go, prefersReduced ? 50 : splashDuration);
 
-  // --- NAV: active state + click animation (no routing yet) ---
+  // Nav active state (visual only)
   const allNavButtons = Array.from(document.querySelectorAll('.nav-btn'));
   function setActive(route){
     allNavButtons.forEach(b => b.classList.toggle('is-active', b.dataset.route === route));
   }
   allNavButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      // press ripple / scale handled in CSS :active; we just set active
-      setActive(btn.dataset.route);
-    });
+    btn.addEventListener('click', () => setActive(btn.dataset.route));
   });
 });

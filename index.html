@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Advisor</title>
 
@@ -12,17 +13,15 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Advisor" />
 
-  <!-- Icons -->
+  <!-- Icons (iOS uses apple-touch-icon for Home Screen) -->
   <link rel="icon" type="image/png" href="icon.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="icon.png" />
 
-  <!-- CSS (NO query string, let SW manage cache) -->
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-  <!-- LEFT RAIL (desktop/tablet) — now OUTSIDE the glass container -->
+  <!-- LEFT RAIL (desktop/tablet) — kept OUTSIDE the blurred container -->
   <nav class="nav nav-rail" aria-label="Primary">
     <button class="nav-btn is-active" data-route="home" aria-label="Home">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5Z"/></svg>
@@ -38,7 +37,7 @@
     </button>
   </nav>
 
-  <!-- BOTTOM BAR (phone) — also OUTSIDE -->
+  <!-- BOTTOM BAR (phone) — OUTSIDE as well -->
   <nav class="nav nav-bottom" aria-label="Primary (mobile)">
     <button class="nav-btn" data-route="contacts" aria-label="Contacts">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm-8 1a3.5 3.5 0 1 0-3.5-3.5A3.5 3.5 0 0 0 8 12Zm8 2c-3.018 0-6 1.52-6 4v2h12v-2c0-2.48-2.982-4-6-4ZM8 14c-2.65 0-5 1.334-5 3.5V20h6v-2c0-1.004.4-1.93 1.066-2.7A9.6 9.6 0 0 0 8 14Z"/></svg>
