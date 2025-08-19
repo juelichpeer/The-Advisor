@@ -26,6 +26,7 @@ body{
 /* Glass canvas */
 .glass-bg{
   position:fixed; inset:0;
+  z-index:0; /* keep behind everything else */
   min-height:calc(var(--vh) * 100);
   background:
     radial-gradient(120% 100% at 0% 0%, rgba(255,255,255,0.06), transparent 55%),
@@ -35,21 +36,24 @@ body{
 }
 .glass-bg::before{
   content:""; position:absolute; inset:0;
+  z-index:0; /* ensure overlay is below nav/views */
   background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
   backdrop-filter:blur(var(--blur)) saturate(120%);
   -webkit-backdrop-filter:blur(var(--blur)) saturate(120%);
   pointer-events:none;
 }
 
-/* ----- NAVIGATION ----- */
+/* NAV base */
 .nav{
-  position:fixed; z-index:20;
+  position:fixed;
+  z-index:10; /* on top */
   display:flex;
-  background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-  backdrop-filter:blur(calc(var(--blur)*0.75));
-  -webkit-backdrop-filter:blur(calc(var(--blur)*0.75));
-  box-shadow:0 10px 40px rgba(0,0,0,0.5), inset 0 0 0 1px var(--ring);
-  border-radius:20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+  background-color: rgba(255,255,255,0.06); /* Safari requires a base color */
+  backdrop-filter: blur(calc(var(--blur)*0.75));
+  -webkit-backdrop-filter: blur(calc(var(--blur)*0.75));
+  box-shadow: 0 10px 40px rgba(0,0,0,0.55), inset 0 0 0 1px var(--ring);
+  border-radius: 20px;
 }
 
 /* Left rail (desktop/tablet) */
@@ -59,7 +63,10 @@ body{
   padding:14px;
   flex-direction:column;
   gap:8px;
-  display:none; /* default hidden, shown on larger screens */
+  display:flex;
+}
+@media (max-width: 819px){
+  .nav-rail{ display:none; }
 }
 
 .nav-btn{
@@ -82,8 +89,8 @@ body{
 
 /* Active filter/indicator */
 .nav-btn.is-active{
-  background:linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06));
-  box-shadow:inset 0 0 0 1px var(--ring), 0 8px 24px rgba(0,0,0,0.45);
+  background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
+  box-shadow: inset 0 0 0 1px var(--ring), 0 10px 28px rgba(0,0,0,0.55);
 }
 .nav-btn.is-active::after{
   content:""; position:absolute; inset:0;
@@ -100,7 +107,10 @@ body{
   height:var(--bar-h);
   padding:8px;
   align-items:center; justify-content:space-between;
-  display:flex; /* default for mobile */
+  display:flex;
+}
+@media (min-width: 820px){
+  .nav-bottom{ display:none; }
 }
 .nav-bottom .nav-btn{
   justify-content:center;
@@ -109,16 +119,13 @@ body{
   border-radius:14px;
 }
 .nav-bottom .nav-btn svg{ width:26px; height:26px; }
-.nav-bottom .nav-home{
-  transform: translateY(-6px); /* center emphasis */
-}
-
-/* Hide labels on phone (icons only) */
+.nav-bottom .nav-home{ transform: translateY(-6px); }
 .nav-bottom .nav-btn span{ display:none; }
 
 /* Layout: views */
 .view{
   position:absolute; inset:0;
+  z-index:1; /* above background */
   padding: max(16px, env(safe-area-inset-top))
            max(16px, env(safe-area-inset-right))
            max(24px, env(safe-area-inset-bottom) + var(--bar-h))
@@ -150,7 +157,6 @@ body{
   opacity:0;
   animation: cardIn 700ms var(--ease) 200ms forwards;
 }
-
 .badge{
   width: clamp(64px, 12vw, 90px);
   height: clamp(64px, 12vw, 90px);
@@ -165,7 +171,6 @@ body{
   transform: scale(0.6); opacity:0.0;
   animation: pulse 1600ms var(--ease) 200ms 1 forwards;
 }
-
 .headline{
   margin:0; font-size: clamp(36px, 8vw, 72px);
   line-height: .95; letter-spacing:-0.02em;
@@ -181,7 +186,6 @@ body{
 .headline .word:nth-child(1){ animation: rise 700ms var(--ease) 320ms forwards; }
 .headline .word:nth-child(2){ animation: rise 700ms var(--ease) 450ms forwards; }
 .headline .word:nth-child(3){ animation: rise 700ms var(--ease) 580ms forwards; }
-
 .tagline{
   margin:0; font-size: clamp(14px, 2.2vw, 16px);
   color: var(--muted); letter-spacing:.14em; text-transform:uppercase;
