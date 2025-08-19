@@ -211,3 +211,18 @@ body.show-dashboard #dashboard[hidden]{ display:grid; }
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important}
 }
+/* Put background at the very back */
+.glass-bg{ position:fixed; inset:0; z-index:0; }
+
+/* Views above background */
+.view{ position:absolute; inset:0; z-index:1; }
+
+/* Nav above everything (and now outside) */
+.nav{ position:fixed; z-index:1000; }
+
+/* Show rail on large, bottom bar on small */
+.nav-rail{ display:flex; }
+@media (max-width:819px){ .nav-rail{ display:none; } }
+
+.nav-bottom{ display:flex; }
+@media (min-width:820px){ .nav-bottom{ display:none; } }
